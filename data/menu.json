@@ -1,0 +1,296 @@
+[
+  {
+    "id": "toasts",
+    "name": "Les Toasts",
+    "icon": "assets/toast.svg",
+    "items": [
+      {
+        "id": "toast-benedicte",
+        "name": "Œuf Bénédicte",
+        "price": "7.00 €",
+        "description": "Pain brioché, sauce Bénédicte, bacon, mâche et ciboulette.",
+        "image": "images/toast_benedicte.jpg",
+        "allergens": "Gluten, œuf, lactose",
+        "nutrition": {
+          "calories": "520 kcal",
+          "proteines": "22 g",
+          "glucides": "45 g",
+          "lipides": "28 g"
+        }
+      },
+      {
+        "id": "toast-avocado",
+        "name": "Avocado toast",
+        "price": "7.90 €",
+        "description": "Pain de campagne, fromage frais, avocat, saumon fumé, grenade.",
+        "image": "images/toast_benedicte.jpg",
+        "allergens": "Gluten, poisson, lactose",
+        "nutrition": {
+          "calories": "480 kcal",
+          "proteines": "19 g",
+          "glucides": "42 g",
+          "lipides": "24 g"
+        }
+      },
+      {
+        "id": "toast-halloumi",
+        "name": "Halloumi toast",
+        "price": "6.90 €",
+        "description": "Pain de campagne, fromage frais, piment d'Espelette et filet de miel, halloumi grillé.",
+        "image": "images/toast_benedicte.jpg",
+        "allergens": "Gluten, lactose",
+        "nutrition": {
+          "calories": "450 kcal",
+          "proteines": "18 g",
+          "glucides": "46 g",
+          "lipides": "21 g"
+        }
+      }
+    ]
+  },
+  {
+    "id": "salades",
+    "name": "Les Salades",
+    "icon": "assets/salade.svg",
+    "items": [
+      {
+        "id": "salade-cesar",
+        "name": "La César",
+        "price": "13.90 €",
+        "description": "Batavia, Poulet, Croutons, tomate, Parmezan.",
+        "image": "images/salade_cesar.jpg",
+        "allergens": "Gluten, lactose",
+        "nutrition": {
+          "calories": "780 kcal",
+          "proteines": "30 g",
+          "glucides": "92 g",
+          "lipides": "31 g"
+        }
+      },
+      {
+        "id": "salade-norvegienne",
+        "name": "La Norvégienne",
+        "price": "15.90 €",
+        "description": "Mâche, Saumon, Concombre, Tomate, Sesame noire, Champignon.",
+        "image": "images/salade_norvegienne.jpg",
+        "allergens": "Poisson, sésame",
+        "nutrition": {
+          "calories": "620 kcal",
+          "proteines": "34 g",
+          "glucides": "38 g",
+          "lipides": "26 g"
+        }
+      },
+      {
+        "id": "salade-mediterraneenne",
+        "name": "La Méditerranéenne",
+        "price": "16.90 €",
+        "description": "Roquette, concombre, tomates, feta, olives grecques, basilic.",
+        "image": "images/salade_cesar.jpg",
+        "allergens": "Lactose",
+        "nutrition": {
+          "calories": "540 kcal",
+          "proteines": "16 g",
+          "glucides": "32 g",
+          "lipides": "29 g"
+        }
+      }
+    ]
+  },
+  {
+    "id": "burgers",
+    "name": "Les Burgers",
+    "icon": "assets/hamburger.svg",
+    "items": [
+      {
+        "id": "burger-classic",
+        "name": "Le Classic Beef Cheese",
+        "price": "13.90 €",
+        "description": "Pain brioché, Steack haché 100% bœuf, cheddar, oignons frits, ketchup et moutarde.",
+        "image": "images/burger_cheese.jpg",
+        "allergens": "Gluten, lactose, moutarde",
+        "nutrition": {
+          "calories": "860 kcal",
+          "proteines": "42 g",
+          "glucides": "68 g",
+          "lipides": "44 g"
+        }
+      },
+      {
+        "id": "burger-basquaise",
+        "name": "Le Poulet Basquaise",
+        "price": "15.90 €",
+        "description": "Pain brioché, filet de poulet façon Basquaise, poivrons grillés, olives, pousses d'épinard et basilic.",
+        "image": "images/burger_cheese.jpg",
+        "allergens": "Gluten, lactose",
+        "nutrition": {
+          "calories": "790 kcal",
+          "proteines": "46 g",
+          "glucides": "64 g",
+          "lipides": "36 g"
+        }
+      },
+      {
+        "id": "burger-saumon",
+        "name": "Le Saumon",
+        "price": "15.90 €",
+        "description": "Pain à l'encre de seiche, pavé de saumon mi-cuit, fromage frais, mâche, aneth et échalotes.",
+        "image": "images/burger_cheese.jpg",
+        "allergens": "Gluten, poisson, lactose, mollusques",
+        "nutrition": {
+          "calories": "740 kcal",
+          "proteines": "41 g",
+          "glucides": "58 g",
+          "lipides": "35 g"
+        }
+      }
+    ]
+  },
+  {
+    "id": "gaufres",
+    "name": "Les Gaufres",
+    "icon": "assets/gauffre.svg",
+    "items": [
+      {
+        "id": "gaufre-classique",
+        "name": "La Classique",
+        "price": "4.50 €",
+        "description": "Sucre glace, beurre fondu, chantilly maison.",
+        "image": "images/gaufre_fruits.jpg",
+        "allergens": "Gluten, œuf, lactose",
+        "nutrition": {
+          "calories": "410 kcal",
+          "proteines": "7 g",
+          "glucides": "52 g",
+          "lipides": "20 g"
+        }
+      },
+      {
+        "id": "gaufre-choco",
+        "name": "La Choco-noisette",
+        "price": "5.50 €",
+        "description": "Pâte à tartiner fondante, banane fraîche, éclats de noisettes torréfiées, chantilly.",
+        "image": "images/gaufre_fruits.jpg",
+        "allergens": "Gluten, œuf, lactose, fruits à coque",
+        "nutrition": {
+          "calories": "590 kcal",
+          "proteines": "9 g",
+          "glucides": "71 g",
+          "lipides": "29 g"
+        }
+      },
+      {
+        "id": "gaufre-fruits",
+        "name": "La Fruits rouges",
+        "price": "5.90 €",
+        "description": "Coulis de fruits rouges, fraises fraîches et myrtilles, chantilly.",
+        "image": "images/gaufre_fruits.jpg",
+        "allergens": "Gluten, œuf, lactose",
+        "nutrition": {
+          "calories": "460 kcal",
+          "proteines": "8 g",
+          "glucides": "62 g",
+          "lipides": "21 g"
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafes",
+    "name": "Les Cafés",
+    "icon": "assets/tass.svg",
+    "items": [
+      {
+        "id": "cafe-espresso",
+        "name": "L'Espresso",
+        "price": "2.50 €",
+        "description": "Café de spécialité 100 % arabica.",
+        "image": "images/cafe_cappuccino.jpg",
+        "allergens": "Aucun",
+        "nutrition": {
+          "calories": "5 kcal",
+          "proteines": "0.3 g",
+          "glucides": "0.5 g",
+          "lipides": "0.1 g"
+        }
+      },
+      {
+        "id": "cafe-cappuccino",
+        "name": "Le Cappuccino",
+        "price": "4.50 €",
+        "description": "Espresso, lait chaud, mousse de lait onctueuse, pointe de cacao.",
+        "image": "images/cafe_cappuccino.jpg",
+        "allergens": "Lactose",
+        "nutrition": {
+          "calories": "140 kcal",
+          "proteines": "7 g",
+          "glucides": "12 g",
+          "lipides": "6 g"
+        }
+      },
+      {
+        "id": "cafe-latte",
+        "name": "Le Latte macchiato",
+        "price": "5.00 €",
+        "description": "Espresso, généreuse mousse de lait, touche de vanille ou caramel.",
+        "image": "images/cafe_cappuccino.jpg",
+        "allergens": "Lactose",
+        "nutrition": {
+          "calories": "190 kcal",
+          "proteines": "8 g",
+          "glucides": "22 g",
+          "lipides": "7 g"
+        }
+      }
+    ]
+  },
+  {
+    "id": "cocktails",
+    "name": "Les Cocktails",
+    "icon": "assets/cocktail.svg",
+    "items": [
+      {
+        "id": "cocktail-spritz",
+        "name": "Le Spritz",
+        "price": "8.50 €",
+        "description": "Aperol, prosecco, eau gazeuse, tranche d'orange fraîche.",
+        "image": "images/cocktail_spritz.jpg",
+        "allergens": "Sulfites",
+        "nutrition": {
+          "calories": "165 kcal",
+          "proteines": "0.1 g",
+          "glucides": "16 g",
+          "lipides": "0 g"
+        }
+      },
+      {
+        "id": "cocktail-mojito",
+        "name": "Le Mojito",
+        "price": "9.00 €",
+        "description": "Rhum blanc, menthe fraîche, citron vert, sucre de canne, eau gazeuse.",
+        "image": "images/cocktail_spritz.jpg",
+        "allergens": "Aucun",
+        "nutrition": {
+          "calories": "210 kcal",
+          "proteines": "0.2 g",
+          "glucides": "24 g",
+          "lipides": "0 g"
+        }
+      },
+      {
+        "id": "cocktail-moscow",
+        "name": "Le Moscow Mule",
+        "price": "9.50 €",
+        "description": "Vodka, ginger beer, jus et tranche de citron vert.",
+        "image": "images/cocktail_spritz.jpg",
+        "allergens": "Aucun",
+        "nutrition": {
+          "calories": "180 kcal",
+          "proteines": "0.1 g",
+          "glucides": "18 g",
+          "lipides": "0 g"
+        }
+      }
+    ]
+  }
+]
