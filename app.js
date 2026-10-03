@@ -65,9 +65,9 @@ const FALLBACK_MENU_DATA = [
         "id": "salade-cesar",
         "name": "La César",
         "price": "13.90 €",
-        "description": "Batavia, Poulet, Croutons, tomate, Parmezan.",
+        "description": "Romaine, poulet pané, croûtons, sauce césar spéciale, parmesan, anchois.",
         "image": "images/salade_cesar.jpg",
-        "allergens": "Gluten, lactose",
+        "allergens": "Gluten, lactose, poisson",
         "nutrition": {
           "calories": "780 kcal",
           "proteines": "30 g",
@@ -79,7 +79,7 @@ const FALLBACK_MENU_DATA = [
         "id": "salade-norvegienne",
         "name": "La Norvégienne",
         "price": "15.90 €",
-        "description": "Mâche, Saumon, Concombre, Tomate, Sesame noire, Champignon.",
+        "description": "Mâche, saumon, concombre, radis, oignon rouge, aneth et sésame noir.",
         "image": "images/salade_norvegienne.jpg",
         "allergens": "Poisson, sésame",
         "nutrition": {

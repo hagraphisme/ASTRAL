@@ -343,17 +343,18 @@ body {
   position: relative;
 }
 
-/* RAIL D'ICÔNES GAUCHE (STICKY CENTRÉ AU MILIEU DE L'ÉCRAN SANS SAUT) */
+/* RAIL D'ICÔNES GAUCHE (STICKY CENTRÉ AU MILIEU DE L'ÉCRAN SANS SAUT SUR SMARTPHONE) */
 .category-sidebar-rail {
   position: sticky;
   top: max(20px, calc(50vh - 187px));
-  top: max(20px, calc(50dvh - 187px));
+  top: max(20px, calc(50svh - 187px));
   width: 44px;
   flex-shrink: 0;
   z-index: 30;
   align-self: flex-start;
   padding-top: 0;
-  will-change: transform;
+  transition: top 0.25s ease-out;
+  will-change: transform, top;
 }
 
 .category-icon-nav {
