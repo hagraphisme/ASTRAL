@@ -343,15 +343,16 @@ body {
   position: relative;
 }
 
-/* RAIL D'ICÔNES GAUCHE (STICKY ÉLÉGANT, NE MONTE PAS TOUT EN HAUT ET REVIENT SANS SAUT) */
+/* RAIL D'ICÔNES GAUCHE (STICKY CENTRÉ AU MILIEU DE L'ÉCRAN SANS SAUT) */
 .category-sidebar-rail {
   position: sticky;
-  top: 75px;
+  top: max(20px, calc(50vh - 187px));
+  top: max(20px, calc(50dvh - 187px));
   width: 44px;
   flex-shrink: 0;
   z-index: 30;
   align-self: flex-start;
-  padding-top: 36px;
+  padding-top: 0;
   will-change: transform;
 }
 
