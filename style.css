@@ -414,6 +414,20 @@ body {
   filter: saturate(1.22);
 }
 
+/* OMBRE VECTORIELLE DYNAMIQUE : BLEU AU REPOS -> JAUNE ÉCLATANT AU CLIC / SÉLECTION */
+.cat-nav-btn .cat-svg-shadow,
+.cat-nav-btn .cat-svg-shadow path {
+  fill: #31acff !important;
+  opacity: 0.22 !important;
+  transition: fill 0.35s ease, opacity 0.35s ease;
+}
+
+.cat-nav-btn.active .cat-svg-shadow,
+.cat-nav-btn.active .cat-svg-shadow path {
+  fill: #f9ff8a !important;
+  opacity: 1 !important;
+}
+
 /* SCINTILLEMENTS / PETITES ÉTOILES SUR L'ILLUSTRATION ACTIVE */
 .cat-sparkle {
   position: absolute;

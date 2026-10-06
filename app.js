@@ -369,9 +369,13 @@ function renderMenu() {
     navBtn.setAttribute('data-cat-id', category.id);
     navBtn.setAttribute('aria-label', category.name);
 
+    const iconMarkup = (typeof CATEGORY_ICONS_SVG !== 'undefined' && CATEGORY_ICONS_SVG[category.id])
+      ? CATEGORY_ICONS_SVG[category.id]
+      : `<img src="${category.icon}" alt="${category.name}" class="cat-icon-img" loading="lazy">`;
+
     navBtn.innerHTML = `
       <div class="cat-icon-container">
-        <img src="${category.icon}" alt="${category.name}" class="cat-icon-img" loading="lazy">
+        ${iconMarkup}
         <img src="assets/Sparkl b.svg" class="cat-sparkle cat-sparkle-1" alt="" aria-hidden="true">
         <img src="assets/SPARKL J.svg" class="cat-sparkle cat-sparkle-2" alt="" aria-hidden="true">
       </div>
