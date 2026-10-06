@@ -387,23 +387,31 @@ body {
   align-items: center;
   justify-content: center;
   transform: scale(1) rotate(0deg);
-  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), filter 0.45s ease;
+  opacity: 1;
+  filter: saturate(1);
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), filter 0.35s ease;
   transform-origin: center center;
-  will-change: transform;
+  will-change: transform, filter;
+}
+
+.cat-nav-btn:hover:not(.active) .cat-icon-container {
+  transform: scale(1.08);
+  filter: saturate(1.1);
 }
 
 .cat-icon-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
-  transition: filter 0.3s ease;
+  display: block;
+  transition: none;
 }
 
-/* ANIMATION DE L'ILLUSTRATION ACTIVE (LISSÉE SANS AUCUN DÉBORDEMENT) */
+/* ANIMATION DE L'ILLUSTRATION ACTIVE (PLUS GROSSE, COULEURS ÉCLATANTES, ROTATION CONSERVÉE) */
 .cat-nav-btn.active .cat-icon-container {
-  transform: scale(1.24) rotate(-6deg);
-  filter: drop-shadow(0 4px 12px rgba(0, 187, 206, 0.35));
+  transform: scale(1.40) rotate(-6deg);
+  opacity: 1;
+  filter: saturate(1.22);
 }
 
 /* SCINTILLEMENTS / PETITES ÉTOILES SUR L'ILLUSTRATION ACTIVE */
@@ -419,13 +427,13 @@ body {
 }
 
 .cat-sparkle-1 {
-  top: -6px;
-  right: -6px;
+  top: -8px;
+  right: -8px;
 }
 
 .cat-sparkle-2 {
-  bottom: -4px;
-  left: -6px;
+  bottom: -6px;
+  left: -8px;
 }
 
 .cat-nav-btn.active .cat-sparkle-1 {
