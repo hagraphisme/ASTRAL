@@ -9,11 +9,11 @@
       }
 
       .cls-1, .cls-2 {
-        fill: #5498d6;
+        fill: #faf5ec;
       }
 
       .cls-3 {
-        fill: #5498d6;
+        fill: #fff;
       }
 
       .cls-2 {

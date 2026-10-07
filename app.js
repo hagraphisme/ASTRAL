@@ -1,326 +1,189 @@
 /**
  * ==========================================================================
- * ASTRAL — BRUNCH / CAFÉ / SODA
- * Script d'application interactif (SPA, Animations & Modales)
+ * L'ARDOISE — APPLICATION JAVASCRIPT (SPA, Vues Persistantes & Modale Plat)
  * ==========================================================================
  */
 
-// Données du menu de secours (permet le fonctionnement direct même en local file://)
-const FALLBACK_MENU_DATA = [
-  {
-    "id": "toasts",
-    "name": "Les Toasts",
-    "icon": "assets/toast.svg",
-    "items": [
-      {
-        "id": "toast-benedicte",
-        "name": "Œuf Bénédicte",
-        "price": "7.00 €",
-        "description": "Pain brioché, sauce Bénédicte, bacon, mâche et ciboulette.",
-        "image": "images/toast_benedicte.jpg",
-        "allergens": "Gluten, œuf, lactose",
-        "nutrition": {
-          "calories": "520 kcal",
-          "proteines": "22 g",
-          "glucides": "45 g",
-          "lipides": "28 g"
-        }
-      },
-      {
-        "id": "toast-avocado",
-        "name": "Avocado toast",
-        "price": "7.90 €",
-        "description": "Pain de campagne, fromage frais, avocat, saumon fumé, grenade.",
-        "image": "images/Avocado_toast.jpg",
-        "allergens": "Gluten, poisson, lactose",
-        "nutrition": {
-          "calories": "480 kcal",
-          "proteines": "19 g",
-          "glucides": "42 g",
-          "lipides": "24 g"
-        }
-      },
-      {
-        "id": "toast-halloumi",
-        "name": "Halloumi toast",
-        "price": "6.90 €",
-        "description": "Pain de campagne, fromage frais, piment d'Espelette et filet de miel, halloumi grillé.",
-        "image": "images/halloumi_toast.jpg",
-        "allergens": "Gluten, lactose",
-        "nutrition": {
-          "calories": "450 kcal",
-          "proteines": "18 g",
-          "glucides": "46 g",
-          "lipides": "21 g"
-        }
-      }
-    ]
+// Données de secours intégrées (garantit un fonctionnement immédiat en file:// ou sans serveur)
+const DEFAULT_MENU_DATA = {
+  restaurant: {
+    name: "L'Ardoise",
+    tagline: "Bistrot & Cuisine Traditionnelle",
+    address: "19 Rue de la Cavalerie, 75009 Paris",
+    phone: "07 22 36 85 14",
+    hours: "Mardi au Dimanche : 12h00 – 14h30 & 19h00 – 23h00\nFermé le lundi",
+    concept: "Une cuisine de bistrot élégante et généreuse, élaborée chaque jour à partir de produits frais de saison"
   },
-  {
-    "id": "salades",
-    "name": "Les Salades",
-    "icon": "assets/salade.svg",
-    "items": [
-      {
-        "id": "salade-cesar",
-        "name": "La César",
-        "price": "13.90 €",
-        "description": "Romaine, poulet pané, croûtons, sauce césar spéciale, parmesan, anchois.",
-        "image": "images/salade_cesar.jpg",
-        "allergens": "Gluten, lactose, poisson",
-        "nutrition": {
-          "calories": "780 kcal",
-          "proteines": "30 g",
-          "glucides": "92 g",
-          "lipides": "31 g"
+  categories: [
+    {
+      id: "entrees",
+      name: "Entrées",
+      items: [
+        {
+          id: "soupe-oignon",
+          name: "Soupe à l'oignon",
+          price: "9 €",
+          description: "(oignon, croutons, bouillons)",
+          fullDescription: "Soupe à l'oignon gratinée selon la tradition, oignons fondants caramélisés, croûtons croustillants et bouillon mijoté.",
+          image: "images/soupe_oignon.jpg",
+          allergens: "Gluten, lactose, céleri",
+          nutrition: {
+            calories: "320 kcal",
+            proteines: "12 g",
+            glucides: "34 g",
+            lipides: "14 g"
+          }
+        },
+        {
+          id: "oeuf-mayonnaise",
+          name: "Oeuf mayonaise",
+          price: "10 €",
+          description: "(oeuf, mayonnaise)",
+          fullDescription: "Œufs fermiers plein air cuits à la perfection, mayonnaise onctueuse battue maison à la moutarde de Dijon.",
+          image: "images/oeuf_mayonnaise.jpg",
+          allergens: "Œufs, moutarde",
+          nutrition: {
+            calories: "385 kcal",
+            proteines: "14 g",
+            glucides: "3 g",
+            lipides: "35 g"
+          }
+        },
+        {
+          id: "tataki-boeuf",
+          name: "Tataki de beouf",
+          price: "13 €",
+          description: "(boeuf, sesame, sauce shirashi)",
+          fullDescription: "Fines tranches de filet de bœuf juste saisies à la flamme, graines de sésame torréfiées et sauce chirashi parfumée.",
+          image: "images/tataki_boeuf.jpg",
+          allergens: "Sésame, soja",
+          nutrition: {
+            calories: "395 kcal",
+            proteines: "34 g",
+            glucides: "7 g",
+            lipides: "25 g"
+          }
         }
-      },
-      {
-        "id": "salade-norvegienne",
-        "name": "La Norvégienne",
-        "price": "15.90 €",
-        "description": "Mâche, saumon, concombre, radis, oignon rouge, aneth et sésame noir.",
-        "image": "images/salade_norvegienne.jpg",
-        "allergens": "Poisson, sésame",
-        "nutrition": {
-          "calories": "620 kcal",
-          "proteines": "34 g",
-          "glucides": "38 g",
-          "lipides": "26 g"
+      ]
+    },
+    {
+      id: "plats",
+      name: "Plats",
+      items: [
+        {
+          id: "bavette-aloyau",
+          name: "Bavette d'aloyau",
+          price: "32 €",
+          description: "(Bavette d'aloyaux, pommes de terres, légumes)",
+          fullDescription: "Bavette d'aloyau poêlée au beurre maître d'hôtel, accompagnée de pommes de terre grenailles rôties et légumes du marché.",
+          image: "images/bavette_aloyau.jpg",
+          allergens: "Lactose",
+          nutrition: {
+            calories: "740 kcal",
+            proteines: "54 g",
+            glucides: "42 g",
+            lipides: "38 g"
+          }
+        },
+        {
+          id: "cabillaud-grill",
+          name: "Cabillaud au grill",
+          price: "29 €",
+          description: "(orisotto au safran, légumes)",
+          fullDescription: "Dos de cabillaud frais nacré au grill, posé sur un risotto crémeux au safran et petits légumes croquants.",
+          image: "images/cabillaud_grill.jpg",
+          allergens: "Poisson, lactose, céleri",
+          nutrition: {
+            calories: "590 kcal",
+            proteines: "46 g",
+            glucides: "50 g",
+            lipides: "21 g"
+          }
+        },
+        {
+          id: "tagliatelle-saumon",
+          name: "Tagliatelle au Saumon",
+          price: "24 €",
+          description: "(Pates fraiche, creme, ail)",
+          fullDescription: "Pâtes fraîches artisanales, généreux morceaux de saumon frais, crème fine d'Isigny liée à l'ail doux et ciboulette.",
+          image: "images/tagliatelle_saumon.jpg",
+          allergens: "Gluten, poisson, lactose",
+          nutrition: {
+            calories: "780 kcal",
+            proteines: "39 g",
+            glucides: "76 g",
+            lipides: "36 g"
+          }
         }
-      },
-      {
-        "id": "salade-mediterraneenne",
-        "name": "La Méditerranéenne",
-        "price": "16.90 €",
-        "description": "Roquette, concombre, tomates, feta, olives grecques, basilic.",
-        "image": "images/salade_meditéranée.jpg",
-        "allergens": "Lactose",
-        "nutrition": {
-          "calories": "540 kcal",
-          "proteines": "16 g",
-          "glucides": "32 g",
-          "lipides": "29 g"
+      ]
+    },
+    {
+      id: "desserts",
+      name: "Desserts",
+      items: [
+        {
+          id: "mi-cuit",
+          name: "Mi-cuit",
+          price: "7 €",
+          description: "(mi-cuit au chocolat)",
+          fullDescription: "Cœur coulant au chocolat noir intense pur beurre de cacao, servi tiède avec sa touche gourmande.",
+          image: "images/mi_cuit.jpg",
+          allergens: "Gluten, œufs, lactose",
+          nutrition: {
+            calories: "520 kcal",
+            proteines: "8 g",
+            glucides: "56 g",
+            lipides: "29 g"
+          }
+        },
+        {
+          id: "ile-flottante",
+          name: "Île Flottante",
+          price: "9 €",
+          description: "(île flottante, creme anglaise)",
+          fullDescription: "Blancs d'œufs délicatement pochés, crème anglaise maison parfumée à la gousse de vanille bourbon et amandes effilées.",
+          image: "images/ile_flottante.jpg",
+          allergens: "Œufs, lactose, fruits à coque",
+          nutrition: {
+            calories: "330 kcal",
+            proteines: "9 g",
+            glucides: "42 g",
+            lipides: "13 g"
+          }
+        },
+        {
+          id: "cafe-gourmand",
+          name: "Café Gourmand",
+          price: "11 €",
+          description: "(mignardises assorties)",
+          fullDescription: "Un café expresso serré accompagné d'un trio de mignardises sucrées du chef pâtissier.",
+          image: "images/cafe_gourmand.jpg",
+          allergens: "Gluten, œufs, lactose, fruits à coque",
+          nutrition: {
+            calories: "410 kcal",
+            proteines: "6 g",
+            glucides: "48 g",
+            lipides: "20 g"
+          }
         }
-      }
-    ]
-  },
-  {
-    "id": "burgers",
-    "name": "Les Burgers",
-    "icon": "assets/hamburger.svg",
-    "items": [
-      {
-        "id": "burger-classic",
-        "name": "Le Classic Beef Cheese",
-        "price": "13.90 €",
-        "description": "Pain brioché, Steack haché 100% bœuf, cheddar, oignons frits, ketchup et moutarde.",
-        "image": "images/burger_cheese.jpg",
-        "allergens": "Gluten, lactose, moutarde",
-        "nutrition": {
-          "calories": "860 kcal",
-          "proteines": "42 g",
-          "glucides": "68 g",
-          "lipides": "44 g"
-        }
-      },
-      {
-        "id": "burger-basquaise",
-        "name": "Le Poulet Basquaise",
-        "price": "15.90 €",
-        "description": "Pain brioché, filet de poulet façon Basquaise, poivrons grillés, olives, pousses d'épinard et basilic.",
-        "image": "images/burger_Poulet.jpg",
-        "allergens": "Gluten, lactose",
-        "nutrition": {
-          "calories": "790 kcal",
-          "proteines": "46 g",
-          "glucides": "64 g",
-          "lipides": "36 g"
-        }
-      },
-      {
-        "id": "burger-saumon",
-        "name": "Le Saumon",
-        "price": "15.90 €",
-        "description": "Pain à l'encre de seiche, pavé de saumon mi-cuit, fromage frais, mâche, aneth et échalotes.",
-        "image": "images/burger_Saumon.jpg",
-        "allergens": "Gluten, poisson, lactose, mollusques",
-        "nutrition": {
-          "calories": "740 kcal",
-          "proteines": "41 g",
-          "glucides": "58 g",
-          "lipides": "35 g"
-        }
-      }
-    ]
-  },
-  {
-    "id": "gaufres",
-    "name": "Les Gaufres",
-    "icon": "assets/gauffre.svg",
-    "items": [
-      {
-        "id": "gaufre-classique",
-        "name": "La Classique",
-        "price": "4.50 €",
-        "description": "Sucre glace, beurre fondu, chantilly maison.",
-        "image": "images/gaufre_beurre_chantilly.jpg",
-        "allergens": "Gluten, œuf, lactose",
-        "nutrition": {
-          "calories": "410 kcal",
-          "proteines": "7 g",
-          "glucides": "52 g",
-          "lipides": "20 g"
-        }
-      },
-      {
-        "id": "gaufre-choco",
-        "name": "La Choco-noisette",
-        "price": "5.50 €",
-        "description": "Pâte à tartiner fondante, banane fraîche, éclats de noisettes torréfiées, chantilly.",
-        "image": "images/gaufre_choco_noisette.jpg",
-        "allergens": "Gluten, œuf, lactose, fruits à coque",
-        "nutrition": {
-          "calories": "590 kcal",
-          "proteines": "9 g",
-          "glucides": "71 g",
-          "lipides": "29 g"
-        }
-      },
-      {
-        "id": "gaufre-fruits",
-        "name": "La Fruits rouges",
-        "price": "5.90 €",
-        "description": "Coulis de fruits rouges, fraises fraîches et myrtilles, chantilly.",
-        "image": "images/gaufre_fruits.jpg",
-        "allergens": "Gluten, œuf, lactose",
-        "nutrition": {
-          "calories": "460 kcal",
-          "proteines": "8 g",
-          "glucides": "62 g",
-          "lipides": "21 g"
-        }
-      }
-    ]
-  },
-  {
-    "id": "cafes",
-    "name": "Les Cafés",
-    "icon": "assets/tass.svg",
-    "items": [
-      {
-        "id": "cafe-espresso",
-        "name": "L'Espresso",
-        "price": "2.50 €",
-        "description": "Café de spécialité 100 % arabica.",
-        "image": "images/esspresso.jpg",
-        "allergens": "Aucun",
-        "nutrition": {
-          "calories": "5 kcal",
-          "proteines": "0.3 g",
-          "glucides": "0.5 g",
-          "lipides": "0.1 g"
-        }
-      },
-      {
-        "id": "cafe-cappuccino",
-        "name": "Le Cappuccino",
-        "price": "4.50 €",
-        "description": "Espresso, lait chaud, mousse de lait onctueuse, pointe de cacao.",
-        "image": "images/cafe_cappuccino.jpg",
-        "allergens": "Lactose",
-        "nutrition": {
-          "calories": "140 kcal",
-          "proteines": "7 g",
-          "glucides": "12 g",
-          "lipides": "6 g"
-        }
-      },
-      {
-        "id": "cafe-latte",
-        "name": "Le Latte macchiato",
-        "price": "5.00 €",
-        "description": "Espresso, généreuse mousse de lait, touche de vanille ou caramel.",
-        "image": "images/latte_macciato.jpg",
-        "allergens": "Lactose",
-        "nutrition": {
-          "calories": "190 kcal",
-          "proteines": "8 g",
-          "glucides": "22 g",
-          "lipides": "7 g"
-        }
-      }
-    ]
-  },
-  {
-    "id": "cocktails",
-    "name": "Les Cocktails",
-    "icon": "assets/cocktail.svg",
-    "items": [
-      {
-        "id": "cocktail-spritz",
-        "name": "Le Spritz",
-        "price": "8.50 €",
-        "description": "Aperol, prosecco, eau gazeuse, tranche d'orange fraîche.",
-        "image": "images/cocktail_spritz.jpg",
-        "allergens": "Sulfites",
-        "nutrition": {
-          "calories": "165 kcal",
-          "proteines": "0.1 g",
-          "glucides": "16 g",
-          "lipides": "0 g"
-        }
-      },
-      {
-        "id": "cocktail-mojito",
-        "name": "Le Mojito",
-        "price": "9.00 €",
-        "description": "Rhum blanc, menthe fraîche, citron vert, sucre de canne, eau gazeuse.",
-        "image": "images/mojito.jpg",
-        "allergens": "Aucun",
-        "nutrition": {
-          "calories": "210 kcal",
-          "proteines": "0.2 g",
-          "glucides": "24 g",
-          "lipides": "0 g"
-        }
-      },
-      {
-        "id": "cocktail-moscow",
-        "name": "Le Moscow Mule",
-        "price": "9.50 €",
-        "description": "Vodka, ginger beer, jus et tranche de citron vert.",
-        "image": "images/moscow_mule.jpg",
-        "allergens": "Aucun",
-        "nutrition": {
-          "calories": "180 kcal",
-          "proteines": "0.1 g",
-          "glucides": "18 g",
-          "lipides": "0 g"
-        }
-      }
-    ]
-  }
-];
+      ]
+    }
+  ]
+};
 
-// État global de l'application
-let currentMenuData = FALLBACK_MENU_DATA;
-let dishesById = {};
+// État de l'application
+let menuData = DEFAULT_MENU_DATA;
+let dishesIndex = {};
+let currentCouvertCount = 2;
 
-// Initialisation au chargement du DOM
+// Initialisation dès chargement du DOM
 document.addEventListener('DOMContentLoaded', async () => {
-  // Préchargement immédiat des polices pour zéro latence au clic sur Réservation
-  if (document.fonts) {
-    document.fonts.load('300 16px "Elms Sans"').catch(() => {});
-    document.fonts.load('normal 44px "Megora"').catch(() => {});
-  }
-
   await loadMenuData();
+  preloadDishImages(); // Préchargement immédiat en cache pour zéro latence
   renderMenu();
-  setupCategoryScrollSpy();
   setupNavigation();
-  setupModals();
   setupReservationForm();
+  setupDishModal();
 });
 
 /**
@@ -331,373 +194,321 @@ async function loadMenuData() {
     const res = await fetch('data/menu.json');
     if (res.ok) {
       const data = await res.json();
-      if (Array.isArray(data) && data.length > 0) {
-        currentMenuData = data;
+      if (data && data.categories && data.categories.length > 0) {
+        menuData = data;
       }
     }
-  } catch (e) {
-    // Mode local file:// ou hors-ligne : utilisation du fallback sans erreur
-    console.info('Utilisation des données intégrées pour Astral.');
+  } catch (err) {
+    console.info("Utilisation des données intégrées pour L'Ardoise.");
   }
 
-  // Indexation rapide des plats par id
-  dishesById = {};
-  currentMenuData.forEach(cat => {
-    cat.items.forEach(dish => {
-      dishesById[dish.id] = dish;
+  // Indexation rapide des plats par ID
+  dishesIndex = {};
+  if (menuData.categories) {
+    menuData.categories.forEach(category => {
+      category.items.forEach(dish => {
+        dishesIndex[dish.id] = dish;
+      });
+    });
+  }
+}
+
+/**
+ * Préchargement de toutes les images pour affichage instantané sans latence
+ */
+function preloadDishImages() {
+  if (!menuData.categories) return;
+  menuData.categories.forEach(category => {
+    category.items.forEach(dish => {
+      if (dish.image) {
+        const img = new Image();
+        img.src = dish.image;
+      }
     });
   });
 }
 
 /**
- * 2. RENDU DU MENU (ICÔNES GAUCHE + PLATS DROITE)
+ * 2. RENDU DU MENU (VUE CARTE)
  */
 function renderMenu() {
-  const navContainer = document.getElementById('category-nav-list');
-  const dishesContainer = document.getElementById('dishes-container');
+  const container = document.getElementById('menu-sections-container');
+  if (!container || !menuData.categories) return;
 
-  if (!navContainer || !dishesContainer) return;
+  container.innerHTML = '';
 
-  navContainer.innerHTML = '';
-  dishesContainer.innerHTML = '';
+  menuData.categories.forEach(category => {
+    const card = document.createElement('section');
+    card.className = 'menu-category-card';
+    card.id = `cat-${category.id}`;
 
-  currentMenuData.forEach((category, catIndex) => {
-    // A. Bouton de catégorie avec icône et sparkles de scintillement
-    const navBtn = document.createElement('button');
-    navBtn.type = 'button';
-    navBtn.className = `cat-nav-btn ${catIndex === 0 ? 'active' : ''}`;
-    navBtn.setAttribute('data-cat-id', category.id);
-    navBtn.setAttribute('aria-label', category.name);
+    // En-tête centré coupant la bordure haute
+    const cardHeader = document.createElement('div');
+    cardHeader.className = 'category-card-header';
+    cardHeader.innerHTML = `<h2 class="category-card-title">${category.name}</h2>`;
+    card.appendChild(cardHeader);
 
-    const iconMarkup = (typeof CATEGORY_ICONS_SVG !== 'undefined' && CATEGORY_ICONS_SVG[category.id])
-      ? CATEGORY_ICONS_SVG[category.id]
-      : `<img src="${category.icon}" alt="${category.name}" class="cat-icon-img" loading="lazy">`;
-
-    navBtn.innerHTML = `
-      <div class="cat-icon-container">
-        ${iconMarkup}
-        <img src="assets/Sparkl b.svg" class="cat-sparkle cat-sparkle-1" alt="" aria-hidden="true">
-        <img src="assets/SPARKL J.svg" class="cat-sparkle cat-sparkle-2" alt="" aria-hidden="true">
-      </div>
-    `;
-
-    // Clic sur l'icône -> Défilement fluide vers la section
-    navBtn.addEventListener('click', () => {
-      const targetSection = document.getElementById(`cat-section-${category.id}`);
-      if (targetSection) {
-        // Mise à jour visuelle immédiate
-        setActiveCategory(category.id);
-        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-
-    navContainer.appendChild(navBtn);
-
-    // B. Section de plats pour cette catégorie
-    const catSection = document.createElement('section');
-    catSection.className = 'category-block';
-    catSection.id = `cat-section-${category.id}`;
-    catSection.setAttribute('data-cat-id', category.id);
-
-    let dishesHTML = `
-      <h2 class="category-title">${category.name}</h2>
-    `;
+    // Liste des plats
+    const list = document.createElement('div');
+    list.className = 'dishes-list';
 
     category.items.forEach(dish => {
-      dishesHTML += `
-        <article class="dish-card" id="dish-${dish.id}">
-          <div class="dish-header-row">
-            <h3 class="dish-title">${dish.name}</h3>
-            <button type="button" class="dish-info-btn" data-dish-info="${dish.id}" aria-label="Informations nutritionnelles pour ${dish.name}">i</button>
+      const dishItem = document.createElement('article');
+      dishItem.className = 'dish-row-item';
+      dishItem.setAttribute('data-dish-id', dish.id);
+      dishItem.setAttribute('role', 'button');
+      dishItem.setAttribute('tabindex', '0');
+      dishItem.setAttribute('aria-label', `Voir la photo et les ingrédients de ${dish.name}`);
+
+      dishItem.innerHTML = `
+        <div class="dish-main-line">
+          <div class="dish-title-group">
+            <h3 class="dish-name">${dish.name}</h3>
+            <span class="dish-click-badge" title="Voir photo et allergènes">i</span>
           </div>
-          <p class="dish-ingredients-text">${dish.description}</p>
-          <div class="dish-image-box">
-            <img src="${dish.image}" alt="${dish.name}" class="dish-img" loading="lazy">
-          </div>
-          <div class="dish-price-text">${dish.price}</div>
-        </article>
+          <div class="dish-leader-dots" aria-hidden="true"></div>
+          <span class="dish-price">${dish.price}</span>
+        </div>
+        <p class="dish-description">${dish.description}</p>
       `;
-    });
 
-    catSection.innerHTML = dishesHTML;
-    dishesContainer.appendChild(catSection);
-  });
+      dishItem.addEventListener('click', () => {
+        openDishModal(dish.id);
+      });
 
-  // Écouteur sur tous les boutons (i) pour ouvrir la modale allergènes
-  document.querySelectorAll('[data-dish-info]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const dishId = btn.getAttribute('data-dish-info');
-      openAllergensModal(dishId);
-    });
-  });
-}
-
-/**
- * 3. DÉTECTION DU DÉFILEMENT (SCROLL SPY AVEC ANIMATION DES ICÔNES)
- */
-function setupCategoryScrollSpy() {
-  const sections = document.querySelectorAll('.category-block');
-  if (sections.length === 0) return;
-
-  const observerOptions = {
-    root: null,
-    rootMargin: '-15% 0px -60% 0px',
-    threshold: 0
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const catId = entry.target.getAttribute('data-cat-id');
-        if (catId) {
-          setActiveCategory(catId);
-        }
-      }
-    });
-  }, observerOptions);
-
-  sections.forEach(sec => observer.observe(sec));
-}
-
-function setActiveCategory(catId) {
-  document.querySelectorAll('.cat-nav-btn').forEach(btn => {
-    if (btn.getAttribute('data-cat-id') === catId) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
-    }
-  });
-}
-
-/**
- * 4. NAVIGATION SPA (PAGES)
- */
-function setupNavigation() {
-  document.querySelectorAll('[data-go]').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetViewId = el.getAttribute('data-go');
-      switchView(targetViewId);
-    });
-  });
-}
-
-function switchView(viewId) {
-  if (viewId === 'view-menu') {
-    // Fait redescendre les pages vers le bas (redévoile le menu dessous)
-    document.querySelectorAll('.sheet-view').forEach(sheet => {
-      sheet.classList.remove('active');
-      sheet.setAttribute('aria-hidden', 'true');
-    });
-    document.body.style.overflow = '';
-  } else {
-    const targetSheet = document.getElementById(viewId);
-    if (targetSheet) {
-      if (viewId === 'view-reservation-confirm') {
-        // Masquer immédiatement le formulaire sans animation de descente pour un fondu net
-        const formSheet = document.getElementById('view-reservation-form');
-        if (formSheet) {
-          formSheet.style.transition = 'none';
-          formSheet.classList.remove('active');
-          formSheet.setAttribute('aria-hidden', 'true');
-          setTimeout(() => {
-            formSheet.style.transition = '';
-          }, 60);
-        }
-      }
-      document.querySelectorAll('.sheet-view').forEach(sheet => {
-        if (sheet !== targetSheet) {
-          sheet.classList.remove('active');
-          sheet.setAttribute('aria-hidden', 'true');
+      dishItem.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openDishModal(dish.id);
         }
       });
-      targetSheet.scrollTop = 0;
-      targetSheet.setAttribute('aria-hidden', 'false');
-      targetSheet.classList.add('active');
+
+      list.appendChild(dishItem);
+    });
+
+    card.appendChild(list);
+    container.appendChild(card);
+  });
+}
+
+/**
+ * 3. NAVIGATION PAR ONGLETS PERSISTANTS (CARTE / RÉSERVATION / INFOS)
+ * Le bouton cliqué reste plein doré en continu.
+ */
+function setupNavigation() {
+  const btnCarte = document.getElementById('nav-btn-carte');
+  const btnReservation = document.getElementById('nav-btn-reservation');
+  const btnInfos = document.getElementById('nav-btn-infos');
+  const navButtons = [btnCarte, btnReservation, btnInfos];
+
+  function setActiveTab(targetId) {
+    // 1. Mise à jour de l'apparence des 3 boutons
+    navButtons.forEach(btn => {
+      if (!btn) return;
+      if (btn.getAttribute('data-target') === targetId) {
+        btn.classList.add('active-filled');
+        btn.classList.remove('outlined');
+      } else {
+        btn.classList.remove('active-filled');
+        btn.classList.add('outlined');
+      }
+    });
+
+    // 2. Bascule des vues pleine page
+    document.querySelectorAll('.page-view').forEach(view => {
+      view.classList.remove('active');
+      view.style.display = 'none';
+    });
+
+    const targetView = document.getElementById(targetId);
+    if (targetView) {
+      targetView.style.display = 'block';
+      targetView.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  }
+
+  // Écouteurs sur les 3 boutons
+  navButtons.forEach(btn => {
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+      setActiveTab(targetId);
+    });
+  });
+
+  // Clic sur le logo -> Retour à la carte
+  const logoLink = document.getElementById('logo-home-link');
+  if (logoLink) {
+    logoLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      setActiveTab('view-menu');
+    });
+  }
+
+  // Bouton "Revenir à la carte" dans l'écran de confirmation
+  const btnBackMenu = document.getElementById('btn-back-to-menu');
+  if (btnBackMenu) {
+    btnBackMenu.addEventListener('click', () => {
+      setActiveTab('view-menu');
+    });
   }
 }
 
 /**
- * 5. GESTION DES MODALES (ALLERGÈNES & INFORMATIONS)
- */
-function setupModals() {
-  // Ouverture via data-modal
-  document.querySelectorAll('[data-modal]').forEach(trigger => {
-    trigger.addEventListener('click', () => {
-      const modalId = trigger.getAttribute('data-modal');
-      const targetModal = document.getElementById(modalId);
-      if (targetModal) {
-        openModal(targetModal);
-      }
-    });
-  });
-
-  // Fermeture via data-close-modal ou clic sur l'arrière-plan
-  document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
-    backdrop.addEventListener('click', (e) => {
-      if (e.target === backdrop || e.target.closest('[data-close-modal]')) {
-        closeModal(backdrop);
-      }
-    });
-  });
-
-  // Fermeture avec la touche Échap
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      document.querySelectorAll('.modal-backdrop.open').forEach(closeModal);
-    }
-  });
-}
-
-function openModal(modalEl) {
-  modalEl.classList.add('open');
-  modalEl.setAttribute('aria-hidden', 'false');
-  document.documentElement.style.overflow = 'hidden';
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal(modalEl) {
-  modalEl.classList.remove('open');
-  modalEl.setAttribute('aria-hidden', 'true');
-  document.documentElement.style.overflow = '';
-  document.body.style.overflow = '';
-}
-
-/**
- * Modale Nutrition & Allergènes spécifique au plat
- */
-function openAllergensModal(dishId) {
-  const dish = dishesById[dishId];
-  if (!dish) return;
-
-  const modalEl = document.getElementById('modal-allergens');
-  const ingredientsEl = document.getElementById('modal-dish-ingredients');
-  const allergensEl = document.getElementById('modal-dish-allergens');
-  const calEl = document.getElementById('modal-nutri-cal');
-  const protEl = document.getElementById('modal-nutri-prot');
-  const carbEl = document.getElementById('modal-nutri-carb');
-  const fatEl = document.getElementById('modal-nutri-fat');
-
-  if (ingredientsEl) ingredientsEl.textContent = dish.description || '-';
-  if (allergensEl) allergensEl.textContent = dish.allergens || 'Aucun';
-  
-  if (dish.nutrition) {
-    if (calEl) calEl.textContent = dish.nutrition.calories || '-';
-    if (protEl) protEl.textContent = dish.nutrition.proteines || '-';
-    if (carbEl) carbEl.textContent = dish.nutrition.glucides || '-';
-    if (fatEl) fatEl.textContent = dish.nutrition.lipides || '-';
-  }
-
-  openModal(modalEl);
-}
-
-/**
- * 6. FORMULAIRE DE RÉSERVATION ET STEPPERS
+ * 4. FORMULAIRE DE RÉSERVATION (STEPPER COUVERTS, DATE/HEURE & ENVOI)
  */
 function setupReservationForm() {
-  // A. Stepper Couverts (défaut: 2)
-  let couverts = 2;
-  const valCouverts = document.getElementById('val-couverts');
-  const btnCouvertsMinus = document.getElementById('btn-couverts-minus');
-  const btnCouvertsPlus = document.getElementById('btn-couverts-plus');
-
-  if (btnCouvertsMinus && btnCouvertsPlus && valCouverts) {
-    btnCouvertsMinus.addEventListener('click', () => {
-      if (couverts > 1) {
-        couverts--;
-        valCouverts.textContent = couverts;
-      }
-    });
-
-    btnCouvertsPlus.addEventListener('click', () => {
-      if (couverts < 30) {
-        couverts++;
-        valCouverts.textContent = couverts;
-      }
-    });
-  }
-
-  // B. Stepper Date (défaut: 4 Août)
-  let currentDate = new Date(2026, 7, 4); // 4 Août
-  const valDate = document.getElementById('val-date');
-  const btnDateMinus = document.getElementById('btn-date-minus');
-  const btnDatePlus = document.getElementById('btn-date-plus');
-
-  const updateDateDisplay = () => {
-    if (valDate) {
-      const options = { day: 'numeric', month: 'long' };
-      const str = currentDate.toLocaleDateString('fr-FR', options);
-      // Majuscule sur le mois (ex: "4 Août")
-      valDate.textContent = str.replace(/^[0-9]+ /, match => match).replace(/[a-zàâäéèêëîïôöùûüç]+$/, m => m.charAt(0).toUpperCase() + m.slice(1));
-    }
-  };
-
-  if (btnDateMinus && btnDatePlus) {
-    btnDateMinus.addEventListener('click', () => {
-      currentDate.setDate(currentDate.getDate() - 1);
-      updateDateDisplay();
-    });
-
-    btnDatePlus.addEventListener('click', () => {
-      currentDate.setDate(currentDate.getDate() + 1);
-      updateDateDisplay();
-    });
-  }
-
-  // C. Stepper Heure (défaut: 19h00)
-  let currentHour = 19;
-  let currentMin = 0;
-  const valHeure = document.getElementById('val-heure');
-  const btnHeureMinus = document.getElementById('btn-heure-minus');
-  const btnHeurePlus = document.getElementById('btn-heure-plus');
-
-  const updateHeureDisplay = () => {
-    if (valHeure) {
-      const minStr = currentMin === 0 ? '00' : (currentMin < 10 ? '0' + currentMin : currentMin);
-      valHeure.textContent = `${currentHour}h${minStr}`;
-    }
-  };
-
-  if (btnHeureMinus && btnHeurePlus) {
-    btnHeureMinus.addEventListener('click', () => {
-      currentMin -= 15;
-      if (currentMin < 0) {
-        currentMin = 45;
-        currentHour--;
-        if (currentHour < 8) currentHour = 23;
-      }
-      updateHeureDisplay();
-    });
-
-    btnHeurePlus.addEventListener('click', () => {
-      currentMin += 15;
-      if (currentMin >= 60) {
-        currentMin = 0;
-        currentHour++;
-        if (currentHour > 23) currentHour = 8;
-      }
-      updateHeureDisplay();
-    });
-  }
-
-  // D. Soumission du formulaire -> Écran de confirmation
   const form = document.getElementById('reservation-form');
+  const stepperMinus = document.getElementById('stepper-minus');
+  const stepperPlus = document.getElementById('stepper-plus');
+  const stepperCount = document.getElementById('stepper-count');
+  const guestsInput = document.getElementById('res-guests');
+  const dateInput = document.getElementById('res-date');
+
+  // Gestion du stepper de couverts (- 2 +)
+  if (stepperMinus && stepperPlus && stepperCount && guestsInput) {
+    stepperMinus.addEventListener('click', () => {
+      if (currentCouvertCount > 1) {
+        currentCouvertCount--;
+        stepperCount.textContent = currentCouvertCount;
+        guestsInput.value = currentCouvertCount;
+      }
+    });
+
+    stepperPlus.addEventListener('click', () => {
+      if (currentCouvertCount < 20) {
+        currentCouvertCount++;
+        stepperCount.textContent = currentCouvertCount;
+        guestsInput.value = currentCouvertCount;
+      }
+    });
+  }
+
+  // Initialisation de la date minimale à aujourd'hui
+  if (dateInput) {
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
+  }
+
+  // Soumission du formulaire
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      
-      const nameInput = document.getElementById('res-name');
-      const phoneInput = document.getElementById('res-phone');
 
-      if (!nameInput.value.trim() || !phoneInput.value.trim()) {
-        alert('Veuillez renseigner votre nom et votre numéro de téléphone.');
+      const name = document.getElementById('res-name').value.trim();
+      const phone = document.getElementById('res-phone').value.trim();
+      const date = document.getElementById('res-date').value;
+      const time = document.getElementById('res-time').value;
+
+      if (!name || !phone || !date || !time) {
+        alert("Veuillez renseigner tous les champs obligatoires (Nom, Téléphone, Date et Heure).");
         return;
       }
 
-      // Transition vers l'écran de confirmation
-      switchView('view-reservation-confirm');
+      // Bascule vers l'écran de confirmation
+      document.querySelectorAll('.page-view').forEach(view => {
+        view.classList.remove('active');
+        view.style.display = 'none';
+      });
+
+      const confirmView = document.getElementById('view-reservation-confirm');
+      if (confirmView) {
+        confirmView.style.display = 'block';
+        confirmView.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      form.reset();
+      currentCouvertCount = 2;
+      if (stepperCount) stepperCount.textContent = "2";
+      if (guestsInput) guestsInput.value = "2";
     });
+  }
+}
+
+/**
+ * 5. MODALE DÉTAIL D'UN PLAT (ICÔNE i) — DESIGN ÉPURÉ SANS CADRES
+ */
+function setupDishModal() {
+  const modal = document.getElementById('modal-dish-detail');
+  const closeBtn = document.getElementById('btn-close-dish-modal');
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeDishModal);
+  }
+
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeDishModal();
+      }
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeDishModal();
+    }
+  });
+}
+
+function openDishModal(dishId) {
+  const dish = dishesIndex[dishId];
+  if (!dish) return;
+
+  const modal = document.getElementById('modal-dish-detail');
+  const imgEl = document.getElementById('modal-dish-img');
+  const titleEl = document.getElementById('modal-dish-title');
+  const priceEl = document.getElementById('modal-dish-price');
+  const descEl = document.getElementById('modal-dish-desc');
+  const allergensEl = document.getElementById('modal-dish-allergens-clean');
+  const calEl = document.getElementById('modal-nutri-cal');
+  const protEl = document.getElementById('modal-nutri-prot');
+  const glucEl = document.getElementById('modal-nutri-gluc');
+  const lipEl = document.getElementById('modal-nutri-lip');
+
+  if (imgEl) {
+    imgEl.style.opacity = '0';
+    imgEl.onload = () => { imgEl.style.opacity = '1'; };
+    imgEl.src = dish.image;
+    imgEl.alt = dish.name;
+    if (imgEl.complete) {
+      imgEl.style.opacity = '1';
+    }
+  }
+  if (titleEl) titleEl.textContent = dish.name;
+  if (priceEl) priceEl.textContent = dish.price;
+  if (descEl) descEl.textContent = dish.fullDescription || dish.description;
+
+  // Allergènes épurés sans encadrement
+  if (allergensEl) {
+    allergensEl.textContent = dish.allergens || "Aucun allergène majeur répertorié";
+  }
+
+  // Valeurs nutritionnelles sans encadrements
+  const nutri = dish.nutrition || {};
+  if (calEl) calEl.textContent = nutri.calories || "-";
+  if (protEl) protEl.textContent = nutri.proteines || "-";
+  if (glucEl) glucEl.textContent = nutri.glucides || "-";
+  if (lipEl) lipEl.textContent = nutri.lipides || "-";
+
+  if (modal) {
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeDishModal() {
+  const modal = document.getElementById('modal-dish-detail');
+  const imgEl = document.getElementById('modal-dish-img');
+  if (imgEl) {
+    imgEl.style.opacity = '0';
+  }
+  if (modal) {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
   }
 }
