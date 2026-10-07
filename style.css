@@ -1,0 +1,1139 @@
+/* ==========================================================================
+   ASTRAL — BRUNCH / CAFÉ / SODA
+   Feuille de style principale (Mobile-First, Pixel Perfect)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. POLICES TYPOGRAPHIQUES (MEGORA & ELMS SANS)
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Megora';
+  src: url('fonts/Megora.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Elms Sans';
+  src: url('fonts/Elms_Sans/ElmsSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Elms Sans';
+  src: url('fonts/Elms_Sans/ElmsSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Elms Sans';
+  src: url('fonts/Elms_Sans/ElmsSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Elms Sans';
+  src: url('fonts/Elms_Sans/ElmsSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Elms Sans';
+  src: url('fonts/Elms_Sans/ElmsSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------------------
+   2. VARIABLES CSS & RESET
+   -------------------------------------------------------------------------- */
+:root {
+  --color-pink-primary: #f57bff;
+  --color-blue-text: #5498d6;
+  --color-blue-light: #31acff;
+  --color-yellow-sparkle: #f9ff8a;
+  
+  --bg-gradient: linear-gradient(
+    180deg,
+    #ebf9e6 0%,
+    #fefee4 15%,
+    #ffffff 40%,
+    #fceaf4 75%,
+    #e3f6fd 100%
+  );
+
+  --font-title: 'Megora', cursive, sans-serif;
+  --font-body: 'Elms Sans', sans-serif;
+
+  /* GLASSMORPHISME TRANSLUCIDE ÉPURÉ : DÉCORS ET ÉTOILES VISIBLES EN DESSOUS */
+  --card-bg: rgba(255, 255, 255, 0.12);
+  --card-border-top: 1.2px solid rgba(255, 255, 255, 0.85);
+  --card-border-left: 1.2px solid rgba(255, 255, 255, 0.60);
+  --card-border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  --card-border-right: 1px solid rgba(255, 255, 255, 0.22);
+  --card-radius: 10px;
+  --card-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.85), inset 0 -1px 1px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(120, 160, 210, 0.08);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* FOND DIRECTEMENT ASSURÉ (AUCUN SAUT AU SCROLL, 0% BLANC) */
+html {
+  min-height: 100%;
+  background-color: #ebf9e6;
+  overflow-x: clip;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  color: var(--color-blue-text);
+  background: transparent;
+  overflow-x: visible;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* CALQUE D'ARRIÈRE-PLAN PLEIN ÉCRAN ULTRA-FLUIDE COMPOSITÉ GPU */
+.app-fixed-gradient-bg {
+  position: fixed;
+  top: -60px;
+  left: -60px;
+  right: -60px;
+  bottom: -60px;
+  background: var(--bg-gradient);
+  z-index: -2;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   3. DÉCORATIONS D'ARRIÈRE-PLAN (SPARKLES FIXES)
+   -------------------------------------------------------------------------- */
+.bg-decorative-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.bg-sparkle {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bg-sparkle-top-left {
+  top: 140px;
+  left: -15px;
+  width: 110px;
+  height: 110px;
+  opacity: 0.7;
+  transform: rotate(-5deg);
+  animation: pulseSparkleSlow 7s ease-in-out infinite alternate;
+}
+
+.bg-sparkle-bottom-right {
+  bottom: 20px;
+  right: -30px;
+  width: 220px;
+  height: 220px;
+  opacity: 0.65;
+  transform: rotate(12deg);
+  animation: pulseSparkleSlow 9s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes pulseSparkleSlow {
+  0% { transform: scale(0.96) rotate(-2deg); opacity: 0.55; }
+  100% { transform: scale(1.06) rotate(6deg); opacity: 0.8; }
+}
+
+/* --------------------------------------------------------------------------
+   4. STRUCTURE DES PAGES (SPA CONTENEUR)
+   -------------------------------------------------------------------------- */
+.page-view {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 16px 14px 40px 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   SOUS-PAGES EN SHEET ANIMÉE MOBILE (RÉSERVATION & CONFIRMATION)
+   Glisse du bas de l'écran pour recouvrir le menu de façon ultra-fluide (style iOS)
+   ========================================================================== */
+.sheet-view {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg-gradient);
+  background-color: #ebf9e6;
+  -webkit-overflow-scrolling: touch;
+  padding: 0;
+  transform: translateY(100%);
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.42s;
+  will-change: transform;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.sheet-view.active {
+  transform: translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Page de confirmation de réservation : transition discrète en fondu sur place sans glissement depuis le bas */
+#view-reservation-confirm.sheet-view {
+  transform: none !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease !important;
+  box-shadow: none;
+}
+
+#view-reservation-confirm.sheet-view.active {
+  transform: none !important;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.sheet-view .page-header-bar,
+.sheet-view .form-page-body,
+.sheet-view .confirm-page-body {
+  width: 100%;
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+.sheet-view .page-header-bar {
+  padding-top: 16px;
+}
+
+.sheet-view .form-page-body,
+.sheet-view .confirm-page-body {
+  padding-bottom: 40px;
+}
+
+/* --------------------------------------------------------------------------
+   5. HEADER DU MENU (#view-menu)
+   -------------------------------------------------------------------------- */
+.astral-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-top: 4px;
+}
+
+.logo-wrapper {
+  width: 100%;
+  max-width: 195px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.astral-logo-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 14px rgba(245, 123, 255, 0.15));
+}
+
+.top-nav-pills {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.nav-pill-btn {
+  background: rgba(255, 255, 255, 0.22);
+  border-top: 1.2px solid rgba(255, 255, 255, 0.85);
+  border-left: 1.2px solid rgba(255, 255, 255, 0.65);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  border-right: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 10px;
+  padding: 8px 20px;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--color-pink-primary);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8), 0 4px 15px rgba(245, 123, 255, 0.08);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+  letter-spacing: 0.3px;
+}
+
+.nav-pill-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.42);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.95), 0 6px 20px rgba(245, 123, 255, 0.16);
+}
+
+.nav-pill-btn:active {
+  transform: translateY(0);
+}
+
+.reservation-pill-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.pill-sparkle-decoration {
+  position: absolute;
+  top: -8px;
+  right: -16px;
+  width: 34px;
+  height: 34px;
+  pointer-events: none;
+  animation: sparkleTwinkle 2.5s ease-in-out infinite;
+}
+
+/* --------------------------------------------------------------------------
+   6. ZONE MENU : RAIL D'ICÔNES + CARTES DE PLATS
+   -------------------------------------------------------------------------- */
+.menu-layout-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1;
+  position: relative;
+}
+
+/* RAIL D'ICÔNES GAUCHE (STICKY CENTRÉ AU MILIEU DE L'ÉCRAN SANS SAUT SUR SMARTPHONE) */
+.category-sidebar-rail {
+  position: sticky;
+  top: max(20px, calc(50vh - 187px));
+  top: max(20px, calc(50svh - 187px));
+  width: 44px;
+  flex-shrink: 0;
+  z-index: 30;
+  align-self: flex-start;
+  padding-top: 0;
+  transition: top 0.25s ease-out;
+  will-change: transform, top;
+}
+
+.category-icon-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.cat-nav-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+  outline: none;
+}
+
+.cat-icon-container {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1) rotate(0deg);
+  opacity: 1;
+  filter: saturate(1);
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), filter 0.35s ease;
+  transform-origin: center center;
+  will-change: transform, filter;
+}
+
+.cat-nav-btn:hover:not(.active) .cat-icon-container {
+  transform: scale(1.08);
+  filter: saturate(1.1);
+}
+
+.cat-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: none;
+}
+
+/* ANIMATION DE L'ILLUSTRATION ACTIVE (PLUS GROSSE, COULEURS ÉCLATANTES, ROTATION CONSERVÉE) */
+.cat-nav-btn.active .cat-icon-container {
+  transform: scale(1.40) rotate(-6deg);
+  opacity: 1;
+  filter: saturate(1.22);
+}
+
+/* OMBRE VECTORIELLE DYNAMIQUE : BLEU AU REPOS -> JAUNE ÉCLATANT AU CLIC / SÉLECTION */
+.cat-nav-btn .cat-svg-shadow,
+.cat-nav-btn .cat-svg-shadow path {
+  fill: #31acff !important;
+  opacity: 0.22 !important;
+  transition: fill 0.35s ease, opacity 0.35s ease;
+}
+
+.cat-nav-btn.active .cat-svg-shadow,
+.cat-nav-btn.active .cat-svg-shadow path {
+  fill: #f9ff8a !important;
+  opacity: 1 !important;
+}
+
+/* SCINTILLEMENTS / PETITES ÉTOILES SUR L'ILLUSTRATION ACTIVE */
+.cat-sparkle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0) rotate(0deg);
+  transition: opacity 0.3s ease;
+  z-index: 5;
+}
+
+.cat-sparkle-1 {
+  top: -8px;
+  right: -8px;
+}
+
+.cat-sparkle-2 {
+  bottom: -6px;
+  left: -8px;
+}
+
+.cat-nav-btn.active .cat-sparkle-1 {
+  animation: sparkleTwinkle 1.8s ease-in-out infinite;
+}
+
+.cat-nav-btn.active .cat-sparkle-2 {
+  animation: sparkleTwinkle 1.8s ease-in-out infinite 0.5s;
+}
+
+@keyframes sparkleTwinkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.2) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15) rotate(45deg);
+  }
+}
+
+/* ZONE DROITE : FEED DES PLATS */
+.dishes-content-area {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.category-block {
+  scroll-margin-top: 20px;
+}
+
+.category-title {
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-blue-text);
+  text-align: center;
+  margin-bottom: 14px;
+  letter-spacing: 0.6px;
+}
+
+/* CARTE DE PLAT INDIVIDUELLE (RÉDUITE D'ENVIRON 5% SUPPLÉMENTAIRES) */
+.dish-card {
+  background: var(--card-bg);
+  border-top: var(--card-border-top);
+  border-left: var(--card-border-left);
+  border-bottom: var(--card-border-bottom);
+  border-right: var(--card-border-right);
+  border-radius: var(--card-radius);
+  padding: 9px 8px 7px 8px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--card-shadow);
+  margin-bottom: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.dish-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.9), 0 10px 28px rgba(120, 160, 210, 0.12);
+}
+
+.dish-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3px;
+}
+
+/* TITRE DU PLAT EN ELMS SANS ROSE */
+.dish-title {
+  font-family: var(--font-body);
+  font-size: 16.8px;
+  font-weight: 600;
+  color: var(--color-pink-primary);
+  letter-spacing: 0.2px;
+}
+
+.dish-info-btn {
+  background: transparent;
+  border: 1.5px solid var(--color-blue-text);
+  color: var(--color-blue-text);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dish-info-btn:hover {
+  background: var(--color-blue-text);
+  color: #fff;
+  transform: scale(1.08);
+}
+
+.dish-ingredients-text {
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 1.3;
+  color: var(--color-blue-text);
+  margin-bottom: 8px;
+  opacity: 0.95;
+}
+
+.dish-image-box {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dish-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.dish-card:hover .dish-img {
+  transform: scale(1.02);
+}
+
+/* PRIX DIRECTEMENT DANS LA BOÎTE DU PLAT (ELMS SANS BLEU, ALIGNÉ À DROITE) */
+.dish-price-text {
+  font-family: var(--font-body);
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--color-blue-text);
+  text-align: right;
+  padding-right: 6px;
+  margin-top: 7px;
+  margin-bottom: 2px;
+  letter-spacing: 0.5px;
+}
+
+/* --------------------------------------------------------------------------
+   7. FOOTER MIO TABLE
+   -------------------------------------------------------------------------- */
+.astral-footer {
+  margin-top: 36px;
+  padding: 16px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mio-footer-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.95;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.mio-footer-link:hover {
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+.mio-footer-logo {
+  height: 53px;
+  width: auto;
+  max-width: 185px;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   8. PAGES FORMULAIRE ET CONFIRMATION (#view-reservation-form & confirm)
+   -------------------------------------------------------------------------- */
+.page-header-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.back-arrow-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  transition: transform 0.2s ease;
+}
+
+.back-arrow-img {
+  width: 44px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(245, 123, 255, 0.2));
+  transition: transform 0.2s ease;
+}
+
+.back-arrow-btn:hover .back-arrow-img {
+  transform: translateX(-4px);
+}
+
+.page-title-wrapper {
+  position: relative;
+  text-align: center;
+  margin-bottom: 28px;
+  padding: 0 10px;
+}
+
+.title-sparkle-decor {
+  position: absolute;
+  top: -18px;
+  left: 10px;
+  width: 72px;
+  height: 72px;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+.megora-page-title {
+  font-family: var(--font-title);
+  font-size: 44px;
+  color: var(--color-pink-primary);
+  font-weight: normal;
+  letter-spacing: 1px;
+  text-shadow: none; /* GLOW / SHADOW ENLEVÉ COMME DEMANDÉ */
+  filter: none;
+}
+
+/* FORMULAIRE & CARTES D'INPUTS */
+.astral-reservation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-field-card {
+  background: var(--card-bg);
+  border-top: var(--card-border-top);
+  border-left: var(--card-border-left);
+  border-bottom: var(--card-border-bottom);
+  border-right: var(--card-border-right);
+  border-radius: var(--card-radius);
+  padding: 12px 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  align-items: center;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.form-field-card:focus-within {
+  background: rgba(255, 255, 255, 0.25);
+  border-top-color: rgba(245, 123, 255, 0.85);
+  border-left-color: rgba(245, 123, 255, 0.7);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.9), 0 8px 24px rgba(245, 123, 255, 0.14);
+}
+
+/* TYPOGRAPHIE EN LIGHT (ELMS SANS LIGHT 300) */
+.astral-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 16.5px;
+  font-weight: 300;
+  color: var(--color-blue-text);
+}
+
+.astral-input::placeholder {
+  color: var(--color-blue-text);
+  opacity: 0.75;
+  font-weight: 300;
+}
+
+/* STEPPERS (COUVERTS, DATE, HEURE) */
+.stepper-card {
+  justify-content: space-between;
+}
+
+.stepper-label {
+  font-family: var(--font-body);
+  font-size: 16.5px;
+  color: var(--color-blue-text);
+  font-weight: 300;
+}
+
+.stepper-control-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.stepper-action-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-blue-text);
+  font-family: var(--font-body);
+  font-size: 19px;
+  font-weight: 300;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.stepper-action-btn:active {
+  transform: scale(0.9);
+  background: rgba(84, 152, 214, 0.15);
+}
+
+.stepper-value {
+  font-family: var(--font-body);
+  font-size: 16.5px;
+  font-weight: 300;
+  color: var(--color-blue-text);
+  min-width: 24px;
+  text-align: center;
+  outline: none;
+}
+
+/* BLOC NOTE */
+.note-card {
+  align-items: flex-start;
+  padding: 12px 16px;
+}
+
+.astral-textarea {
+  width: 100%;
+  min-height: 95px;
+  border: none;
+  background: transparent;
+  outline: none;
+  resize: vertical;
+  font-family: var(--font-body);
+  font-size: 16.5px;
+  font-weight: 300;
+  color: var(--color-blue-text);
+  line-height: 1.4;
+}
+
+.astral-textarea::placeholder {
+  color: var(--color-blue-text);
+  opacity: 0.75;
+  font-weight: 300;
+}
+
+/* BOUTON CONFIRMER ET ÉTOILE */
+.confirm-btn-wrapper {
+  position: relative;
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+}
+
+.confirm-sparkle-decor {
+  position: absolute;
+  bottom: -28px;
+  right: -10px;
+  width: 140px;
+  height: 140px;
+  pointer-events: none;
+  opacity: 0.85;
+  z-index: 0;
+}
+
+.astral-primary-btn {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  border-top: 1.2px solid rgba(255, 255, 255, 0.88);
+  border-left: 1.2px solid rgba(255, 255, 255, 0.70);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.20);
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--card-radius);
+  padding: 14px 18px;
+  font-family: var(--font-body);
+  font-size: 16.5px;
+  font-weight: 300;
+  color: var(--color-blue-text);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.85), 0 8px 24px rgba(120, 160, 210, 0.08);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.astral-primary-btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.95), 0 10px 28px rgba(120, 160, 210, 0.14);
+  transform: translateY(-2px);
+}
+
+.astral-primary-btn:active {
+  transform: translateY(0);
+}
+
+/* CARTE DE CONFIRMATION (PAGE 3) */
+.confirmation-message-card {
+  background: var(--card-bg);
+  border-top: var(--card-border-top);
+  border-left: var(--card-border-left);
+  border-bottom: var(--card-border-bottom);
+  border-right: var(--card-border-right);
+  border-radius: 12px;
+  padding: 30px 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--card-shadow);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.confirm-p {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--color-blue-text);
+  margin-bottom: 22px;
+}
+
+.confirm-phone-link {
+  color: var(--color-blue-text);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.signature-p {
+  margin-bottom: 0;
+  font-size: 16.5px;
+  font-weight: 300;
+}
+
+/* --------------------------------------------------------------------------
+   9. MODALES GLASSMORPHISM (VALEURS NUTRITIONNELLES & INFORMATIONS)
+   -------------------------------------------------------------------------- */
+.modal-backdrop {
+  position: fixed;
+  top: -120px;
+  left: -120px;
+  right: -120px;
+  bottom: -120px;
+  width: calc(100vw + 240px);
+  height: calc(100dvh + 240px);
+  min-height: calc(100vh + 240px);
+  z-index: 1000;
+  background: rgba(45, 60, 85, 0.28);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  touch-action: none;
+  overscroll-behavior: contain;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.glass-modal-card {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1.2px solid rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(60, 90, 130, 0.22);
+  width: calc(100% - 32px);
+  max-width: 325px;
+  max-height: 85vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  position: relative;
+  padding: 24px 20px;
+  transform: scale(0.92) translateY(12px);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-backdrop.open .glass-modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  background: #fff;
+  color: var(--color-pink-primary);
+  transform: rotate(90deg);
+}
+
+/* --------------------------------------------------------------------------
+   MODALE 1 : VALEURS NUTRITIONNELLES & ALLERGÈNES (GLASSMORPHISME CLAIR HARMONIEUX)
+   -------------------------------------------------------------------------- */
+.modal-allergens-card {
+  background: rgba(255, 255, 255, 0.76);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 20px 60px rgba(120, 160, 210, 0.22);
+  color: var(--color-blue-text);
+}
+
+.modal-allergens-card .modal-close-btn {
+  background: rgba(84, 152, 214, 0.12);
+  border: 1px solid rgba(84, 152, 214, 0.25);
+  color: var(--color-blue-text);
+}
+
+.modal-allergens-card .modal-close-btn:hover {
+  background: var(--color-pink-primary);
+  color: #fff;
+  border-color: var(--color-pink-primary);
+}
+
+.modal-allergens-card .modal-section {
+  margin-bottom: 22px;
+}
+
+.modal-allergens-card .modal-section:last-child {
+  margin-bottom: 0;
+}
+
+/* TITRES DE SECTIONS EN ELMS SANS ROSE */
+.modal-allergens-card .modal-section-title {
+  font-family: var(--font-body);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--color-pink-primary);
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.modal-allergens-card .modal-text-content {
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--color-blue-text);
+}
+
+.modal-allergens-card .nutrition-table {
+  border-top: 1px solid rgba(84, 152, 214, 0.3);
+  margin-top: 8px;
+}
+
+.modal-allergens-card .nutrition-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(84, 152, 214, 0.2);
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-blue-text);
+}
+
+.modal-allergens-card .nutri-val {
+  font-weight: 600;
+  color: var(--color-blue-text);
+}
+
+/* --------------------------------------------------------------------------
+   MODALE 2 : INFORMATIONS ÉTABLISSEMENT (ÉPURÉE SANS PICTOS)
+   -------------------------------------------------------------------------- */
+.modal-info-card {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  color: var(--color-blue-text);
+}
+
+.modal-info-card .modal-close-btn {
+  background: rgba(84, 152, 214, 0.1);
+  border-color: rgba(84, 152, 214, 0.25);
+  color: var(--color-blue-text);
+}
+
+.modal-info-card .modal-close-btn:hover {
+  background: var(--color-pink-primary);
+  color: #fff;
+}
+
+.info-modal-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.info-title {
+  font-family: var(--font-body);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--color-pink-primary);
+  margin-bottom: 2px;
+  letter-spacing: 0.5px;
+}
+
+.info-subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-blue-text);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.info-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(84, 152, 214, 0.15);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.info-item strong {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-pink-primary);
+}
+
+.info-item p {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--color-blue-text);
+}
+
+.info-link {
+  color: var(--color-blue-text);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   10. RESPONSIVE POUR ÉCRANS LARGES (TABLETTE / DESKTOP)
+   -------------------------------------------------------------------------- */
+@media (min-width: 600px) {
+  .page-view {
+    max-width: 480px;
+  }
+}
